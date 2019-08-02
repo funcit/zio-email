@@ -21,6 +21,11 @@ object MailSession {
       }
     }
 
+  private def getMimeMessage(session: Session): ZIO[Any, Throwable, MimeMessage] =
+    for {
+      mimeMessage <- ZIO.effect(new MimeMessage(session))
+    } yield mimeMessage
+
   private def getSession(mailer: MailerSettings): ZIO[Any, Throwable, Session] =
     for {
       props <- ZIO.effect {
@@ -46,8 +51,6 @@ object MailSession {
         e.subject match {
           case Some((subject, _)) =>
             message.setSubject(subject)
-          case Some((_, _)) =>
-            message.setSubject("")
           case None =>
             message.setSubject("")
         }
@@ -67,9 +70,10 @@ object MailSession {
 
   def sendMail(mail: Envelope, settings: MailerSettings): Task[Unit] = {
     for {
-      session <- getSession(settings)
-      message <- processEnvelope(mail, new MimeMessage(session))
-      _       <- ZIO.effect(Transport.send(message))
+      session     <- getSession(settings)
+      mimeMessage <- getMimeMessage(session)
+      message     <- processEnvelope(mail, mimeMessage)
+      _           <- ZIO.effect(Transport.send(message))
     } yield ()
   }
 }

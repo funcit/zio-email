@@ -2,7 +2,7 @@ package zio.mail.client
 
 import java.nio.charset.Charset
 
-case class Envelope(
+final case class Envelope(
   from: String,
   subject: Option[(String, Option[Charset])] = None,
   to: List[String] = List.empty[String],

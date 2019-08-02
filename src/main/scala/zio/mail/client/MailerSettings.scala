@@ -1,11 +1,11 @@
 package zio.mail.client
 
-case class Credentials(
+final case class Credentials(
   username: String,
   password: String
 )
 
-case class MailerSettings(
+final case class MailerSettings(
   host: Option[String] = None,
   port: Option[Int] = None,
   auth: Option[Boolean] = None,
