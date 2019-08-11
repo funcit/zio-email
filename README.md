@@ -2,7 +2,13 @@
 
 Email using [ZIO](https://zio.dev/)
 
-### Client code
+## Getting started
+
+Add zio-email dependency to your `build.sbt`:
+
+`libraryDependencies += "com.funcit" %% "zio-email" % "0.1.0"`
+
+## Client code
 
 ```
     val settings = MailerSettings(
