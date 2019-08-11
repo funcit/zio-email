@@ -11,6 +11,7 @@ matrix:
 branches:
   only:
     - master
+    - /feature/*
     -  /^v.*/
 
 script:
